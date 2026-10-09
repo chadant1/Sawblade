@@ -6,7 +6,7 @@ A rigged, game-ready character: a muscular red-skinned brute with a sawblade hea
 
 | File | What it is |
 | --- | --- |
-| `Sawblade.fbx` | Rigged export for Unity (Y up, 2.2 m tall, textures embedded, three animation clips) |
+| `Sawblade.fbx` | Rigged export for Unity (Y up, 2.2 m tall, textures embedded, 14 animation clips) |
 | `Sawblade.blend` | Blender 5.2 source with the rig and the original high-poly mesh (hidden) |
 | `sawblade 3d model.glb` | Original unrigged model |
 | `sawblade*.png` | Reference images |
@@ -21,15 +21,24 @@ A rigged, game-ready character: a muscular red-skinned brute with a sawblade hea
 
 ## Animations
 
-All clips are in place (no root motion), 30 fps, with every frame keyed.
+All clips are in place (no root motion), 30 fps, with every frame keyed. The three blade bones spin in every clip.
 
 | Clip | Frames | Length | Notes |
 | --- | --- | --- | --- |
+| `Idle` | 60 | 2.0 s | Loop. |
 | `Walk` | 28 | 0.93 s | Loop. Matches a ground speed of about 1.0 m/s. Tie hangs down the front. |
 | `Run` | 18 | 0.6 s | Loop. Matches about 2.8 m/s. Tie streams back over the left shoulder. |
 | `WalkToRun` | 22 | 0.73 s | One-shot. Starts on the first frame of `Walk`, ends on the first frame of `Run`. |
-
-The three blade bones spin in every clip (faster in the run).
+| `Punch` | 20 | 0.67 s | Right blade jab. Starts and ends on `Idle`. |
+| `BladeThrow` | 45 | 1.5 s | Both hand blades fly 4 m forward and return. Starts and ends on `Idle`. |
+| `Kick` | 26 | 0.87 s | Right front kick. Starts and ends on `Idle`. |
+| `JumpStart` | 12 | 0.4 s | `Idle` to the air pose. |
+| `JumpLoop` | 20 | 0.67 s | Loop. Air pose. |
+| `JumpLand` | 16 | 0.53 s | Air pose to `Idle`. |
+| `JumpPunch` | 18 | 0.6 s | Overhead double-blade slam. Starts and ends on the air pose. |
+| `JumpKick` | 18 | 0.6 s | Air kick. Starts and ends on the air pose. |
+| `HitReact` | 14 | 0.47 s | Starts and ends on `Idle`. |
+| `Death` | 50 | 1.67 s | Falls backward and stays down. |
 
 ## Unity import
 
