@@ -10,6 +10,8 @@ A rigged, game-ready character: a muscular red-skinned brute with a sawblade hea
 | `Sawblade.blend` | Blender 5.2 source with the rig and the original high-poly mesh (hidden) |
 | `sawblade 3d model.glb` | Original unrigged model |
 | `sawblade*.png` | Reference images |
+| `SawBladeLean.fbx`, `SawBladeLean.blend` | The SawBladeLean build, with its own rig and 92 clips (see below) |
+| `scripts/` | Blender Python scripts that generate the SawBladeLean clips |
 
 ## Two versions
 
@@ -30,6 +32,55 @@ A separate build of the character on its own skeleton: `SawBladeLean.fbx` and `S
 - Hand blades are complete discs, so they can spin or leave the hand
 - Max 4 bone influences per vertex; rest pose is arms-down, not a T-pose
 - `SawBladeLean.blend` is the Blender 5.2 source with the rig and all animation actions. The original high-poly mesh is not in it; use `sawblade 3d model.glb`
+
+### Getting the Blender file
+
+`SawBladeLean.blend` holds the rigged character and all 92 animations. You need [Blender](https://www.blender.org/download/) 5.2 or newer; older versions may not open the file correctly.
+
+To download just that file:
+
+1. On the repo page, click `SawBladeLean.blend` in the file list.
+2. Click the download button (the down-arrow icon labelled "Download raw file") at the top right of the file view.
+
+To get everything instead, click the green **Code** button and choose **Download ZIP**, or clone the repo:
+
+```bash
+git clone https://github.com/chadant1/Sawblade.git
+```
+
+### Playing the animations in Blender
+
+Each animation is stored as an "action" on the skeleton. The file opens with `Idle` assigned.
+
+1. Open `SawBladeLean.blend` in Blender.
+2. Click the **Animation** tab in the row of workspace tabs at the top of the window. You get a 3D view above and a Dope Sheet below.
+3. In the 3D view, click the character's skeleton to select it (or click `SawCharacter_Rig` in the Outliner at the top right).
+4. To see the textures, hover over the 3D view, hold `Z` and choose **Material Preview**.
+5. In the Dope Sheet's header, open the mode dropdown that says **Dope Sheet** and switch it to **Action Editor**.
+6. Next to it is a dropdown showing the current action, `Idle`. Click it and pick any clip from the list, for example `Walk` or `Heavy1`. You can type in that list to search.
+7. In the Timeline at the bottom, set **Start** to `0` and **End** to the clip's frame count from the tables below (for example `28` for `Walk`). Otherwise short clips sit still at the end and long ones get cut off.
+8. Press `Space` over the 3D view to play, and `Space` again to stop. Drag the blue playhead in the Dope Sheet to scrub by hand.
+
+Tips:
+
+- Playback is 30 frames per second.
+- Looping clips repeat cleanly when End matches their frame count; one-shots snap back to the first frame.
+- If the character does not move after you pick a clip, make sure the skeleton is still selected, then pick the clip again.
+- Picking clips does not change the file unless you save it.
+
+### Regenerating the clips
+
+The clips are built by two scripts in `scripts/`, so they can be tweaked and rebuilt rather than edited by hand. From the repo root:
+
+```bash
+blender SawBladeLean.blend --python scripts/sawbladelean_clips_1.py
+```
+
+```bash
+blender SawBladeLean.blend --python scripts/sawbladelean_clips_2.py
+```
+
+`sawbladelean_clips_1.py` builds the first 22 clips and contains the solver; `sawbladelean_clips_2.py` builds the other 70 and needs the first script next to it. Each run replaces the actions of the same name. Neither script saves the file or exports the FBX.
 
 ### SawBladeLean animations
 
