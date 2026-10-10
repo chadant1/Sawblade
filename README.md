@@ -20,6 +20,17 @@ A rigged, game-ready character: a muscular red-skinned brute with a sawblade hea
 
 Both versions share the same skeleton and the same 14 animation clips.
 
+## SawBladeLean
+
+A separate build of the character on its own skeleton: `SawBladeLean.fbx` and `SawBladeLean.blend`. It does not share the skeleton or the animation clips above, and has no animations yet.
+
+- 45,835 triangles, one material, 1.8 m tall, textures embedded in the FBX
+- 40 bones using Unity Humanoid names (`Hips`, `Spine`, `Chest`, `Neck`, `Head`, ...); no finger bones
+- Extra bones: `HeadBlade`, `LeftHandBlade`, `RightHandBlade` (spin around the bone's length axis), `Tie_01`-`Tie_10`, `CoatTail_Back_01`, `CoatTail_Back_02`, `CoatTail_Left`, `CoatTail_Right`, `CoatTail_FrontLeft`, `CoatTail_FrontRight`
+- Hand blades are complete discs, so they can spin or leave the hand
+- Max 4 bone influences per vertex; rest pose is arms-down, not a T-pose
+- `SawBladeLean.blend` is the Blender 5.2 source with the rig and the original high-poly mesh (hidden)
+
 ## Rig
 
 - 31,118 triangles, one material, 4K base colour / normal / roughness-metallic maps
