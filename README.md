@@ -22,7 +22,7 @@ Both versions share the same skeleton and the same 14 animation clips.
 
 ## SawBladeLean
 
-A separate build of the character on its own skeleton: `SawBladeLean.fbx` and `SawBladeLean.blend`. It does not share the skeleton or the animation clips above, and has no animations yet.
+A separate build of the character on its own skeleton: `SawBladeLean.fbx` and `SawBladeLean.blend`. It does not share the skeleton or the animation clips above; it has its own 22 clips, listed below.
 
 - 45,835 triangles, one material, 1.8 m tall, textures embedded in the FBX
 - 40 bones using Unity Humanoid names (`Hips`, `Spine`, `Chest`, `Neck`, `Head`, ...); no finger bones
@@ -30,6 +30,37 @@ A separate build of the character on its own skeleton: `SawBladeLean.fbx` and `S
 - Hand blades are complete discs, so they can spin or leave the hand
 - Max 4 bone influences per vertex; rest pose is arms-down, not a T-pose
 - `SawBladeLean.blend` is the Blender 5.2 source with the rig and the original high-poly mesh (hidden)
+
+### SawBladeLean animations
+
+All clips are in place (no root motion), 30 fps, with every frame keyed. In Unity the takes are named `SawCharacter_Rig|<Clip>`. One-shots start and end on the `Idle` pose unless noted.
+
+| Clip | Frames | Type | Notes |
+| --- | --- | --- | --- |
+| `Idle` | 60 | Loop | |
+| `Walk` | 28 | Loop | |
+| `Run` | 18 | Loop | Tie streams back over the left shoulder. |
+| `Sprint` | 14 | Loop | Tie streams back over the left shoulder. |
+| `WalkBack` | 28 | Loop | Arms in a half guard. |
+| `StrafeLeft`, `StrafeRight` | 24 | Loop | Arms in a half guard. |
+| `JumpStart` | 12 | One-shot | `Idle` to the air pose. |
+| `JumpLoop` | 20 | Loop | Air pose. Tie floats upward. |
+| `JumpLand` | 16 | One-shot | Air pose to `Idle`. |
+| `Light1` | 16 | One-shot | Right blade jab. |
+| `Light2` | 16 | One-shot | Left blade rising slash. |
+| `Light3` | 22 | One-shot | Right spinning backhand. |
+| `Heavy1` | 30 | One-shot | Overhead double-blade slam. |
+| `Headbutt` | 26 | One-shot | Steps in and drives the head blade forward. The only clip where the head blade spins. |
+| `BladeThrow` | 45 | One-shot | Both hand blades fly 4 m forward and return. |
+| `BlockLoop` | 30 | Loop | Blades crossed in front. |
+| `DodgeBack` | 18 | One-shot | Hop back. |
+| `HitLight` | 14 | One-shot | |
+| `Knockdown` | 30 | One-shot | Ends lying on his back. |
+| `GetUp` | 36 | One-shot | Starts from the `Knockdown` end pose. |
+| `Death` | 50 | One-shot | Collapses backward; hand blades spin down to a stop. |
+
+- Head blade stays upright and only rocks a few degrees, except in `Headbutt`. Hand blades spin in every clip.
+- Tie hangs down the front when standing, shortened by a scale key on `Tie_01` (Y about 0.28), and returns to full length when it flies. It is kept above a flat floor at his feet.
 
 ## Rig
 
