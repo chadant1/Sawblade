@@ -22,14 +22,14 @@ Both versions share the same skeleton and the same 14 animation clips.
 
 ## SawBladeLean
 
-A separate build of the character on its own skeleton: `SawBladeLean.fbx` and `SawBladeLean.blend`. It does not share the skeleton or the animation clips above; it has its own 22 clips, listed below.
+A separate build of the character on its own skeleton: `SawBladeLean.fbx` and `SawBladeLean.blend`. It does not share the skeleton or the animation clips above; it has its own 92 clips, listed below.
 
 - 45,835 triangles, one material, 1.8 m tall, textures embedded in the FBX
 - 40 bones using Unity Humanoid names (`Hips`, `Spine`, `Chest`, `Neck`, `Head`, ...); no finger bones
 - Extra bones: `HeadBlade`, `LeftHandBlade`, `RightHandBlade` (spin around the bone's length axis), `Tie_01`-`Tie_10`, `CoatTail_Back_01`, `CoatTail_Back_02`, `CoatTail_Left`, `CoatTail_Right`, `CoatTail_FrontLeft`, `CoatTail_FrontRight`
 - Hand blades are complete discs, so they can spin or leave the hand
 - Max 4 bone influences per vertex; rest pose is arms-down, not a T-pose
-- `SawBladeLean.blend` is the Blender 5.2 source with the rig and the original high-poly mesh (hidden)
+- `SawBladeLean.blend` is the Blender 5.2 source with the rig and all animation actions. The original high-poly mesh is not in it; use `sawblade 3d model.glb`
 
 ### SawBladeLean animations
 
@@ -59,8 +59,30 @@ All clips are in place (no root motion), 30 fps, with every frame keyed. In Unit
 | `GetUp` | 36 | One-shot | Starts from the `Knockdown` end pose. |
 | `Death` | 50 | One-shot | Collapses backward; hand blades spin down to a stop. |
 
-- Head blade stays upright and only rocks a few degrees, except in `Headbutt`. Hand blades spin in every clip.
+- Head blade stays upright and only rocks a few degrees, except in `Headbutt` and `FinisherHeadGrind`. Hand blades spin in every clip except `Sleep`.
 - Tie hangs down the front when standing, shortened by a scale key on `Tie_01` (Y about 0.28), and returns to full length when it flies. It is kept above a flat floor at his feet.
+
+The second batch adds 70 more clips:
+
+| Group | Clips |
+| --- | --- |
+| Locomotion | `IdleLook` (90, loop), `IdleRev` (60), `TurnLeft90` (16), `TurnRight90` (16), `Turn180` (24), `RunStop` (14), `WalkToRun` (22), `CrouchIdle` (40, loop), `CrouchWalk` (28, loop) |
+| Traversal | `HardLand` (24), `AirDash` (14), `ClimbLedge` (40), `Vault` (24), `LadderUp` (24, loop), `LadderDown` (24, loop), `Swim` (30, loop), `TreadWater` (40, loop), `Slide` (22) |
+| Attacks | `Heavy2` (32), `HeavyCharge` (30, loop), `Kick` (26), `RunAttack` (20), `CrouchAttack` (18), `JumpPunch` (18), `JumpKick` (18), `GroundSlam` (30) |
+| Defense | `BlockStart` (6), `BlockHit` (10), `GuardBreak` (26), `Parry` (14), `DodgeForward` (20), `DodgeLeft` (18), `DodgeRight` (18) |
+| Reactions | `HitBack` (14), `HitHeavy` (22), `Stagger` (36), `KnockdownFront` (30), `GetUpFront` (36), `Launched` (20, loop), `WallSplat` (34), `Stunned` (40, loop), `DeathForward` (46), `DeathKneel` (44) |
+| Grabs | `GrabStart` (16), `GrabHold` (30, loop), `Throw` (26), `Grabbed` (30, loop), `FinisherHeadGrind` (60) |
+| Open world | `PickUp` (30), `Interact` (24), `OpenDoor` (30), `PushObject` (32, loop), `Talk` (60, loop), `Listen` (60, loop), `Nod` (20), `ShakeHead` (24), `SitDown` (24), `SitIdle` (60, loop), `SitUp` (24), `RestStart` (28), `RestLoop` (60, loop), `RestEnd` (28), `Sleep` (80, loop), `UseItem` (40), `Equip` (24) |
+| Emotes and state | `Taunt` (50), `Victory` (60), `Defeat` (50), `Spawn` (50), `LowHealthIdle` (60, loop) |
+
+Numbers are frame counts. Notes on this batch:
+
+- `TurnLeft90`, `TurnRight90` and `Turn180` rotate the hips and feet and end facing the new direction; apply that rotation to the character when the clip ends.
+- `ClimbLedge` starts hanging from a 2.3 m ledge and ends standing on it, 0.45 m forward; move the character there when the clip ends. All other clips are in place.
+- `RunStop`, `RunAttack` and `Slide` start from the first frame of `Run`. `CrouchAttack` starts and ends on `CrouchIdle`. `JumpPunch`, `JumpKick`, `AirDash`, `HardLand` and `GroundSlam` start from the air pose.
+- `BlockStart` ends on `BlockLoop`; `BlockHit` and `GuardBreak` start from it. `GrabStart` ends on `GrabHold`; `Throw` and `FinisherHeadGrind` start from it.
+- `KnockdownFront`, `DeathForward`, `DeathKneel` and `Defeat` end on the ground. `GetUpFront` starts from the `KnockdownFront` end pose.
+- Grab and finisher clips are this character's side only.
 
 ## Rig
 
