@@ -10,7 +10,7 @@ A rigged, game-ready character: a muscular red-skinned brute with a sawblade hea
 | `Sawblade.blend` | Blender 5.2 source with the rig and the original high-poly mesh (hidden) |
 | `sawblade 3d model.glb` | Original unrigged model |
 | `sawblade*.png` | Reference images |
-| `SawBladeLean.fbx`, `SawBladeLean.blend` | The SawBladeLean build, with its own rig and 92 clips (see below) |
+| `SawBladeLean.fbx`, `SawBladeLean.blend` | The SawBladeLean build, with its own rig and 110 clips (see below) |
 | `scripts/` | Blender Python scripts that generate the SawBladeLean clips |
 
 ## Two versions
@@ -24,7 +24,7 @@ Both versions share the same skeleton and the same 14 animation clips.
 
 ## SawBladeLean
 
-A separate build of the character on its own skeleton: `SawBladeLean.fbx` and `SawBladeLean.blend`. It does not share the skeleton or the animation clips above; it has its own 92 clips, listed below.
+A separate build of the character on its own skeleton: `SawBladeLean.fbx` and `SawBladeLean.blend`. It does not share the skeleton or the animation clips above; it has its own 110 clips, listed below.
 
 - 45,835 triangles, one material, 1.8 m tall, textures embedded in the FBX
 - 40 bones using Unity Humanoid names (`Hips`, `Spine`, `Chest`, `Neck`, `Head`, ...); no finger bones
@@ -35,7 +35,7 @@ A separate build of the character on its own skeleton: `SawBladeLean.fbx` and `S
 
 ### Getting the Blender file
 
-`SawBladeLean.blend` holds the rigged character and all 92 animations. You need [Blender](https://www.blender.org/download/) 5.2 or newer; older versions may not open the file correctly.
+`SawBladeLean.blend` holds the rigged character and all 110 animations. You need [Blender](https://www.blender.org/download/) 5.2 or newer; older versions may not open the file correctly.
 
 To download just that file:
 
@@ -70,7 +70,7 @@ Tips:
 
 ### Regenerating the clips
 
-The clips are built by two scripts in `scripts/`, so they can be tweaked and rebuilt rather than edited by hand. From the repo root:
+The clips are built by three scripts in `scripts/`, so they can be tweaked and rebuilt rather than edited by hand. From the repo root:
 
 ```bash
 blender SawBladeLean.blend --python scripts/sawbladelean_clips_1.py
@@ -80,7 +80,11 @@ blender SawBladeLean.blend --python scripts/sawbladelean_clips_1.py
 blender SawBladeLean.blend --python scripts/sawbladelean_clips_2.py
 ```
 
-`sawbladelean_clips_1.py` builds the first 22 clips and contains the solver; `sawbladelean_clips_2.py` builds the other 70 and needs the first script next to it. Each run replaces the actions of the same name. Neither script saves the file or exports the FBX.
+```bash
+blender SawBladeLean.blend --python scripts/sawbladelean_clips_3.py
+```
+
+`sawbladelean_clips_1.py` builds the first 22 clips and contains the solver; `sawbladelean_clips_2.py` builds the next 70 and `sawbladelean_clips_3.py` the 18 character-specific ones. Each later script needs the earlier ones next to it. Each run replaces the actions of the same name. Neither script saves the file or exports the FBX.
 
 ### SawBladeLean animations
 
@@ -110,7 +114,7 @@ All clips are in place (no root motion), 30 fps, with every frame keyed. In Unit
 | `GetUp` | 36 | One-shot | Starts from the `Knockdown` end pose. |
 | `Death` | 50 | One-shot | Collapses backward; hand blades spin down to a stop. |
 
-- Head blade stays upright and only rocks a few degrees, except in `Headbutt` and `FinisherHeadGrind`. Hand blades spin in every clip except `Sleep`.
+- Head blade stays upright and only rocks a few degrees, except in `Headbutt`, `FinisherHeadGrind` and `BuzzsawDash`. Hand blades spin in every clip except `Sleep` and `BladeSharpen`.
 - Tie hangs down the front when standing, shortened by a scale key on `Tie_01` (Y about 0.28), and returns to full length when it flies. It is kept above a flat floor at his feet.
 
 The second batch adds 70 more clips:
@@ -134,6 +138,32 @@ Numbers are frame counts. Notes on this batch:
 - `BlockStart` ends on `BlockLoop`; `BlockHit` and `GuardBreak` start from it. `GrabStart` ends on `GrabHold`; `Throw` and `FinisherHeadGrind` start from it.
 - `KnockdownFront`, `DeathForward`, `DeathKneel` and `Defeat` end on the ground. `GetUpFront` starts from the `KnockdownFront` end pose.
 - Grab and finisher clips are this character's side only.
+
+The third batch adds 18 clips built around this character:
+
+| Clip | Frames | What happens |
+| --- | --- | --- |
+| `BladeRev` | 40 | Hunches over, both blades spin up with a growing shudder, then throws his arms wide. |
+| `BuzzsawDash` | 30 | Tucks into a ball and rolls forward twice with the head blade spinning. |
+| `GroundGrind` | 30 | From the first frame of `Run`, drops into a low lunge dragging the right blade through the floor, then uppercuts out. |
+| `BladeClash` | 22 | Scrapes both blades together in front of him and rips them apart. |
+| `SpinCyclone` | 40 | Arms out, three full spins on the spot. Ends facing the way it started. |
+| `WallSawClimb` | 24 | Loop. Climbs by biting the hand blades into a wall alternately. |
+| `SawZipline` | 30 | Loop. Hangs from the right blade overhead, legs trailing, tie streaming. |
+| `CutThrough` | 44 | Presses both blades into something in front, saws downward, then rips it open. |
+| `TieWhip` | 26 | Leans back, then snaps forward so the tie lashes straight ahead at full length. |
+| `TieStraighten` | 50 | Brings a saw blade up to his collar and fussily adjusts the tie. |
+| `TieCaught` | 44 | The tie snags in his right blade and yanks him down; he struggles, then tears free. |
+| `CoatFlourish` | 20 | Quick hip twist that flares the coat tails. |
+| `BladeSharpen` | 60 | Holds the left blade still and strokes the right across it three times, then inspects it. |
+| `FailedHandshake` | 56 | Offers a "hand", looks down at the saw, withdraws it and shrugs. |
+| `TryToPickUp` | 64 | Crouches and tries three times to pinch something between two blades, then gives up. |
+| `HeadStuck` | 64 | Headbutts, the blade sticks, he braces and tugs three times, then pops free and staggers back. |
+| `BladeJam` | 56 | Right blade stops; he shakes it, bangs it on his knee twice, and it spins back up. |
+| `SparkLighter` | 56 | Crouches and scrapes the right blade on the ground three times, then leans back to admire it. |
+
+- All of these are in place; `BuzzsawDash` and `GroundGrind` need forward movement from the character controller.
+- `HeadStuck`, `CutThrough`, `WallSawClimb` and `SawZipline` assume a wall, door or cable that is not part of the clip.
 
 ## Rig
 

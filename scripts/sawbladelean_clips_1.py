@@ -85,7 +85,7 @@ def clampv(w, m):
     return w * (m / w.length) if w.length > m else w
 
 
-def solve_tie(frames, loop, wind, mode):
+def solve_tie(frames, loop, wind, mode, poses=None):
     n = len(frames)
     W = Vector(wind)
     vf = Vector()
@@ -134,6 +134,16 @@ def solve_tie(frames, loop, wind, mode):
                 wd = wd - bf * c
             dl = (wd + 0.3 * bd + 0.3 * bf).normalized()
             bt = Gc @ Vector((1, 0, 0))
+            # optional per-frame override: "tie" = (dir x, y, z, length 0.28-1, weight, wave)
+            tc = g(poses[fi], "tie", 6) if poses else (0.0,) * 6
+            wave = tc[5]
+            if tc[4] > 0:
+                cd = Vector(tc[:3])
+                if cd.length > 1e-4:
+                    dl = dl.lerp(cd.normalized(), min(1.0, tc[4])).normalized()
+                fly = fly * (1 - tc[4]) + max(0.0, min(1.0, (tc[3] - 0.28) / 0.72)) * tc[4]
+            if abs(dl.dot(bt)) > 0.9:
+                bt = Gc @ Vector((0, 0, 1))
             o1 = -vf
             o2 = -vf2
             for o in (o1, o2):
@@ -147,6 +157,8 @@ def solve_tie(frames, loop, wind, mode):
                 Dm = rotv(w1 * (1 + 0.3 * i * fly))
                 if i > 0 and fly > 0.01:
                     Dm = rotv(w2 * (0.2 * i * fly)) @ Dm
+                if wave:
+                    Dm = rotv((bt - dl * bt.dot(dl)).normalized() * (wave * sin(fi * 1.6 - 0.9 * i))) @ Dm
                 G[bn] = Dm @ base @ TF[bn].transposed()
             scales[fi] = 0.28 + 0.72 * fly
             # keep the tie above the floor: bones that would dip below it bend to lie along the ground
@@ -392,7 +404,7 @@ def bake(name, poses, loop=False, wind=(0, 0, 0), spin=(1, 1, 1), spinfn=None, h
             P["spin.%s#0" % b] = P.get("spin.%s#0" % b, 0.0) + 360.0 * rv * s
     frames = [solve_body(P) for P in poses]
     simulate(frames, loop, wind)
-    scales = solve_tie(frames, loop, wind, tie)
+    scales = solve_tie(frames, loop, wind, tie, poses)
     if loop:
         scales[0] = scales[N]
         frames[N] = (dict(frames[N][0]), frames[N][1])
