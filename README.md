@@ -11,6 +11,15 @@ A rigged, game-ready character: a muscular red-skinned brute with a sawblade hea
 | `sawblade 3d model.glb` | Original unrigged model |
 | `sawblade*.png` | Reference images |
 
+## Two versions
+
+| Version | Files | Head blade |
+| --- | --- | --- |
+| Original | `Sawblade.fbx`, `Sawblade.blend` | Eye in the centre of the blade |
+| Scar | `ScarSawblade.fbx`, `ScarSawblade.blend` | No eye; bare blade face with a deep vertical scar cut into it (30,989 triangles) |
+
+Both versions share the same skeleton and the same 14 animation clips.
+
 ## Rig
 
 - 31,118 triangles, one material, 4K base colour / normal / roughness-metallic maps
